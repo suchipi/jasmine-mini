@@ -13,6 +13,11 @@ It removes all the file and CLI-related parts of the jasmine node API, and also 
 Usage:
 
 ```js
+// Either require "@suchipi/jasmine-mini" with your CommonJS-compatible
+// module loader, or run the file `bundle.js` found in the root of this repo.
+// It's a UMD bundle that defines the global `Jasmine` when CJS/AMD aren't
+// available.
+
 const j = new Jasmine();
 
 const {
