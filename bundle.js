@@ -7030,8 +7030,8 @@
     this.env.execute();
   };
 
-  var lib = Jasmine;
+  var src = Jasmine;
 
-  return lib;
+  return src;
 
 })));
