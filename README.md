@@ -30,3 +30,12 @@ describe("thing", () => {
 
 j.execute();
 ```
+
+Note: The bundle is compiled with `jasmine-core@3.2.1`. If you want to compile with a different version of `jasmine-core`, follow these steps:
+
+- Clone the repo
+- Bump the jasmine-core dependency
+- Run `yarn install`
+- Run `yarn build`
+
+And the `bundle.js` file will be updated.
