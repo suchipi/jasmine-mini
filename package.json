@@ -1,5 +1,5 @@
 {
-  "name": "@suchipi/jasmine-minimal",
+  "name": "@suchipi/jasmine-mini",
   "description": "(Most of) Jasmine's node API without any node dependencies",
   "keywords": [
     "test",
