@@ -299,234 +299,6 @@
   }
   });
 
-  var __dirname = '/Users/suchipi/Code/jasmine-npm/node_modules/jasmine-core/lib';
-
-  var global$1 = (typeof global !== "undefined" ? global :
-              typeof self !== "undefined" ? self :
-              typeof window !== "undefined" ? window : {});
-
-  // shim for using process in browser
-  // based off https://github.com/defunctzombie/node-process/blob/master/browser.js
-
-  function defaultSetTimout() {
-      throw new Error('setTimeout has not been defined');
-  }
-  function defaultClearTimeout () {
-      throw new Error('clearTimeout has not been defined');
-  }
-  var cachedSetTimeout = defaultSetTimout;
-  var cachedClearTimeout = defaultClearTimeout;
-  if (typeof global$1.setTimeout === 'function') {
-      cachedSetTimeout = setTimeout;
-  }
-  if (typeof global$1.clearTimeout === 'function') {
-      cachedClearTimeout = clearTimeout;
-  }
-
-  function runTimeout(fun) {
-      if (cachedSetTimeout === setTimeout) {
-          //normal enviroments in sane situations
-          return setTimeout(fun, 0);
-      }
-      // if setTimeout wasn't available but was latter defined
-      if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-          cachedSetTimeout = setTimeout;
-          return setTimeout(fun, 0);
-      }
-      try {
-          // when when somebody has screwed with setTimeout but no I.E. maddness
-          return cachedSetTimeout(fun, 0);
-      } catch(e){
-          try {
-              // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-              return cachedSetTimeout.call(null, fun, 0);
-          } catch(e){
-              // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-              return cachedSetTimeout.call(this, fun, 0);
-          }
-      }
-
-
-  }
-  function runClearTimeout(marker) {
-      if (cachedClearTimeout === clearTimeout) {
-          //normal enviroments in sane situations
-          return clearTimeout(marker);
-      }
-      // if clearTimeout wasn't available but was latter defined
-      if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-          cachedClearTimeout = clearTimeout;
-          return clearTimeout(marker);
-      }
-      try {
-          // when when somebody has screwed with setTimeout but no I.E. maddness
-          return cachedClearTimeout(marker);
-      } catch (e){
-          try {
-              // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-              return cachedClearTimeout.call(null, marker);
-          } catch (e){
-              // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-              // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-              return cachedClearTimeout.call(this, marker);
-          }
-      }
-
-
-
-  }
-  var queue = [];
-  var draining = false;
-  var currentQueue;
-  var queueIndex = -1;
-
-  function cleanUpNextTick() {
-      if (!draining || !currentQueue) {
-          return;
-      }
-      draining = false;
-      if (currentQueue.length) {
-          queue = currentQueue.concat(queue);
-      } else {
-          queueIndex = -1;
-      }
-      if (queue.length) {
-          drainQueue();
-      }
-  }
-
-  function drainQueue() {
-      if (draining) {
-          return;
-      }
-      var timeout = runTimeout(cleanUpNextTick);
-      draining = true;
-
-      var len = queue.length;
-      while(len) {
-          currentQueue = queue;
-          queue = [];
-          while (++queueIndex < len) {
-              if (currentQueue) {
-                  currentQueue[queueIndex].run();
-              }
-          }
-          queueIndex = -1;
-          len = queue.length;
-      }
-      currentQueue = null;
-      draining = false;
-      runClearTimeout(timeout);
-  }
-  function nextTick(fun) {
-      var args = new Array(arguments.length - 1);
-      if (arguments.length > 1) {
-          for (var i = 1; i < arguments.length; i++) {
-              args[i - 1] = arguments[i];
-          }
-      }
-      queue.push(new Item(fun, args));
-      if (queue.length === 1 && !draining) {
-          runTimeout(drainQueue);
-      }
-  }
-  // v8 likes predictible objects
-  function Item(fun, array) {
-      this.fun = fun;
-      this.array = array;
-  }
-  Item.prototype.run = function () {
-      this.fun.apply(null, this.array);
-  };
-  var title = 'browser';
-  var platform = 'browser';
-  var browser = true;
-  var env = {};
-  var argv = [];
-  var version = ''; // empty string to avoid regexp issues
-  var versions = {};
-  var release = {};
-  var config = {};
-
-  function noop() {}
-
-  var on = noop;
-  var addListener = noop;
-  var once = noop;
-  var off = noop;
-  var removeListener = noop;
-  var removeAllListeners = noop;
-  var emit = noop;
-
-  function binding(name) {
-      throw new Error('process.binding is not supported');
-  }
-
-  function cwd () { return '/' }
-  function chdir (dir) {
-      throw new Error('process.chdir is not supported');
-  }function umask() { return 0; }
-
-  // from https://github.com/kumavis/browser-process-hrtime/blob/master/index.js
-  var performance = global$1.performance || {};
-  var performanceNow =
-    performance.now        ||
-    performance.mozNow     ||
-    performance.msNow      ||
-    performance.oNow       ||
-    performance.webkitNow  ||
-    function(){ return (new Date()).getTime() };
-
-  // generate timestamp or delta
-  // see http://nodejs.org/api/process.html#process_process_hrtime
-  function hrtime(previousTimestamp){
-    var clocktime = performanceNow.call(performance)*1e-3;
-    var seconds = Math.floor(clocktime);
-    var nanoseconds = Math.floor((clocktime%1)*1e9);
-    if (previousTimestamp) {
-      seconds = seconds - previousTimestamp[0];
-      nanoseconds = nanoseconds - previousTimestamp[1];
-      if (nanoseconds<0) {
-        seconds--;
-        nanoseconds += 1e9;
-      }
-    }
-    return [seconds,nanoseconds]
-  }
-
-  var startTime = new Date();
-  function uptime() {
-    var currentTime = new Date();
-    var dif = currentTime - startTime;
-    return dif / 1000;
-  }
-
-  var process = {
-    nextTick: nextTick,
-    title: title,
-    browser: browser,
-    env: env,
-    argv: argv,
-    version: version,
-    versions: versions,
-    on: on,
-    addListener: addListener,
-    once: once,
-    off: off,
-    removeListener: removeListener,
-    removeAllListeners: removeAllListeners,
-    emit: emit,
-    binding: binding,
-    cwd: cwd,
-    chdir: chdir,
-    umask: umask,
-    hrtime: hrtime,
-    platform: platform,
-    release: release,
-    config: config,
-    uptime: uptime
-  };
-
   var jasmine = createCommonjsModule(function (module, exports) {
   /*
   Copyright (c) 2008-2018 Pivotal Labs
@@ -711,9 +483,9 @@
      * @return {Env}
      */
     j$.getEnv = function(options) {
-      var env$$1 = j$.currentEnv_ = j$.currentEnv_ || new j$.Env(options);
+      var env = j$.currentEnv_ = j$.currentEnv_ || new j$.Env(options);
       //jasmine. singletons in here (setTimeout blah blah).
-      return env$$1;
+      return env;
     };
 
     j$.isArray_ = function(value) {
@@ -5500,7 +5272,7 @@
     StopExecutionError.prototype = new Error();
     j$.StopExecutionError = StopExecutionError;
 
-    function once$$1(fn) {
+    function once(fn) {
       var called = false;
       return function() {
         if (!called) {
@@ -5562,11 +5334,11 @@
           onException(error);
           next(error);
         },
-        cleanup = once$$1(function cleanup() {
+        cleanup = once(function cleanup() {
           self.clearTimeout(timeoutId);
           self.globalErrors.popListener(handleError);
         }),
-        next = once$$1(function next(err) {
+        next = once(function next(err) {
           cleanup();
 
           if (j$.isError_(err)) {
@@ -5755,7 +5527,7 @@
   };
 
 
-  getJasmineRequireObj().interface = function(jasmine, env$$1) {
+  getJasmineRequireObj().interface = function(jasmine, env) {
     var jasmineInterface = {
       /**
        * Callback passed to parts of the Jasmine base interface.
@@ -5778,7 +5550,7 @@
        * @param {Function} specDefinitions Function for Jasmine to invoke that will define inner suites and specs
        */
       describe: function(description, specDefinitions) {
-        return env$$1.describe(description, specDefinitions);
+        return env.describe(description, specDefinitions);
       },
 
       /**
@@ -5792,7 +5564,7 @@
        * @param {Function} specDefinitions Function for Jasmine to invoke that will define inner suites and specs
        */
       xdescribe: function(description, specDefinitions) {
-        return env$$1.xdescribe(description, specDefinitions);
+        return env.xdescribe(description, specDefinitions);
       },
 
       /**
@@ -5807,7 +5579,7 @@
        * @param {Function} specDefinitions Function for Jasmine to invoke that will define inner suites and specs
        */
       fdescribe: function(description, specDefinitions) {
-        return env$$1.fdescribe(description, specDefinitions);
+        return env.fdescribe(description, specDefinitions);
       },
 
       /**
@@ -5823,7 +5595,7 @@
        * @see async
        */
       it: function() {
-        return env$$1.it.apply(env$$1, arguments);
+        return env.it.apply(env, arguments);
       },
 
       /**
@@ -5837,7 +5609,7 @@
        * @param {implementationCallback} [testFunction] Function that contains the code of your test. Will not be executed.
        */
       xit: function() {
-        return env$$1.xit.apply(env$$1, arguments);
+        return env.xit.apply(env, arguments);
       },
 
       /**
@@ -5853,7 +5625,7 @@
        * @see async
        */
       fit: function() {
-        return env$$1.fit.apply(env$$1, arguments);
+        return env.fit.apply(env, arguments);
       },
 
       /**
@@ -5866,7 +5638,7 @@
        * @see async
        */
       beforeEach: function() {
-        return env$$1.beforeEach.apply(env$$1, arguments);
+        return env.beforeEach.apply(env, arguments);
       },
 
       /**
@@ -5879,7 +5651,7 @@
        * @see async
        */
       afterEach: function() {
-        return env$$1.afterEach.apply(env$$1, arguments);
+        return env.afterEach.apply(env, arguments);
       },
 
       /**
@@ -5894,7 +5666,7 @@
        * @see async
        */
       beforeAll: function() {
-        return env$$1.beforeAll.apply(env$$1, arguments);
+        return env.beforeAll.apply(env, arguments);
       },
 
       /**
@@ -5909,7 +5681,7 @@
        * @see async
        */
       afterAll: function() {
-        return env$$1.afterAll.apply(env$$1, arguments);
+        return env.afterAll.apply(env, arguments);
       },
 
       /**
@@ -5921,7 +5693,7 @@
        * @return {matchers}
        */
       expect: function(actual) {
-        return env$$1.expect(actual);
+        return env.expect(actual);
       },
 
       /**
@@ -5940,7 +5712,7 @@
        * return expectAsync(somePromise).toBeResolved();
        */
       expectAsync: function(actual) {
-        return env$$1.expectAsync(actual);
+        return env.expectAsync(actual);
       },
 
       /**
@@ -5951,7 +5723,7 @@
        * @param {String} [message] - Reason the spec is pending.
        */
       pending: function() {
-        return env$$1.pending.apply(env$$1, arguments);
+        return env.pending.apply(env, arguments);
       },
 
       /**
@@ -5962,7 +5734,7 @@
        * @param {String|Error} [error] - Reason for the failure.
       */
       fail: function() {
-        return env$$1.fail.apply(env$$1, arguments);
+        return env.fail.apply(env, arguments);
       },
 
       /**
@@ -5975,7 +5747,7 @@
        * @returns {Spy}
        */
       spyOn: function(obj, methodName) {
-        return env$$1.spyOn(obj, methodName);
+        return env.spyOn(obj, methodName);
       },
 
       /**
@@ -5989,7 +5761,7 @@
        * @returns {Spy}
        */
       spyOnProperty: function(obj, methodName, accessType) {
-        return env$$1.spyOnProperty(obj, methodName, accessType);
+        return env.spyOnProperty(obj, methodName, accessType);
       },
 
       /**
@@ -6001,7 +5773,7 @@
        * @returns {Object} the spied object
        */
       spyOnAllFunctions: function(obj) {
-        return env$$1.spyOnAllFunctions(obj);
+        return env.spyOnAllFunctions(obj);
       },
 
       jsApiReporter: new jasmine.JsApiReporter({
@@ -6024,7 +5796,7 @@
      * @see custom_equality
      */
     jasmine.addCustomEqualityTester = function(tester) {
-      env$$1.addCustomEqualityTester(tester);
+      env.addCustomEqualityTester(tester);
     };
 
     /**
@@ -6037,7 +5809,7 @@
      * @see custom_matcher
      */
     jasmine.addMatchers = function(matchers) {
-      return env$$1.addMatchers(matchers);
+      return env.addMatchers(matchers);
     };
 
     /**
@@ -6047,7 +5819,7 @@
      * @returns {Clock}
      */
     jasmine.clock = function() {
-      return env$$1.clock;
+      return env.clock;
     };
 
     /**
@@ -6059,7 +5831,7 @@
      * @return {Spy}
      */
     jasmine.createSpy = function(name, originalFn) {
-      return env$$1.createSpy(name, originalFn);
+      return env.createSpy(name, originalFn);
     };
 
     /**
@@ -6071,7 +5843,7 @@
      * @return {Object}
      */
     jasmine.createSpyObj = function(baseName, methodNames) {
-      return env$$1.createSpyObj(baseName, methodNames);
+      return env.createSpyObj(baseName, methodNames);
     };
 
     /**
@@ -6084,7 +5856,7 @@
      * @param {Function} factory - Factory function that returns the plan to be executed.
      */
     jasmine.addSpyStrategy = function(name, factory) {
-      return env$$1.addSpyStrategy(name, factory);
+      return env.addSpyStrategy(name, factory);
     };
 
     return jasmineInterface;
@@ -7131,104 +6903,26 @@
   var jasmine_1 = jasmine.Spec;
   var jasmine_2 = jasmine.Suite;
 
-  /*
-  Copyright (c) 2008-2018 Pivotal Labs
-
-  Permission is hereby granted, free of charge, to any person obtaining
-  a copy of this software and associated documentation files (the
-  "Software"), to deal in the Software without restriction, including
-  without limitation the rights to use, copy, modify, merge, publish,
-  distribute, sublicense, and/or sell copies of the Software, and to
-  permit persons to whom the Software is furnished to do so, subject to
-  the following conditions:
-
-  The above copyright notice and this permission notice shall be
-  included in all copies or substantial portions of the Software.
-
-  THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-  EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
-  MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-  NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
-  LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-  OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
-  WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  */
-  var node_boot = function(jasmineRequire) {
+  var boot = function(jasmineRequire) {
     var jasmine = jasmineRequire.core(jasmineRequire);
 
-    var env = jasmine.getEnv({suppressLoadErrors: true});
+    var env = jasmine.getEnv({ suppressLoadErrors: true });
 
     var jasmineInterface = jasmineRequire.interface(jasmine, env);
 
-    extend(commonjsGlobal, jasmineInterface);
-
-    function extend(destination, source) {
-      for (var property in source) destination[property] = source[property];
-      return destination;
-    }
+    jasmine.interface = jasmineInterface;
 
     return jasmine;
   };
 
-  function join() { return [].slice.call(arguments).join("/") }
+  jasmine.boot = boot;
 
-  var _rollupPluginShim2 = /*#__PURE__*/Object.freeze({
-    join: join
-  });
-
-  function readdirSync() { return []; }
-
-  var _rollupPluginShim1 = /*#__PURE__*/Object.freeze({
-    readdirSync: readdirSync
-  });
-
-  var path = ( _rollupPluginShim2 && undefined ) || _rollupPluginShim2;
-
-  var fs = ( _rollupPluginShim1 && undefined ) || _rollupPluginShim1;
-
-  var jasmineCore = jasmine;
-  var boot = node_boot;
-
-
-
-  var rootPath = path.join(__dirname, "jasmine-core"),
-      bootFiles = ['boot.js'],
-      nodeBootFiles = ['node_boot.js'],
-      cssFiles = [],
-      jsFiles = [],
-      jsFilesToSkip = ['jasmine.js'].concat(bootFiles, nodeBootFiles);
-
-  fs.readdirSync(rootPath).forEach(function(file) {
-    if(fs.statSync(path.join(rootPath, file)).isFile()) {
-      switch(path.extname(file)) {
-        case '.css':
-          cssFiles.push(file);
-        break;
-        case '.js':
-          if (jsFilesToSkip.indexOf(file) < 0) {
-          jsFiles.push(file);
-        }
-        break;
-      }
-    }
-  });
-
-  var files = {
-    path: rootPath,
-    bootDir: rootPath,
-    bootFiles: bootFiles,
-    nodeBootFiles: nodeBootFiles,
-    cssFiles: cssFiles,
-    jsFiles: ['jasmine.js'].concat(jsFiles),
-    imagesDir: path.join(__dirname, '../images')
-  };
-  jasmineCore.boot = boot;
-  jasmineCore.files = files;
+  var core = jasmine;
 
   function Jasmine(options) {
     options = options || {};
-    var jasmineCore$$1 = options.jasmineCore || jasmineCore;
-    this.jasmine = jasmineCore$$1.boot(jasmineCore$$1);
+    var jasmineCore = options.jasmineCore || core;
+    this.jasmine = jasmineCore.boot(jasmineCore);
     this.specDir = "";
     this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
     this.reportersCount = 0;
@@ -7240,7 +6934,7 @@
     this.defaultReporterConfigured = false;
 
     this.coreVersion = function() {
-      return jasmineCore$$1.version();
+      return jasmineCore.version();
     };
   }
 
@@ -7314,6 +7008,10 @@
     this.env.stopOnSpecFailure(value);
   };
 
+  Jasmine.prototype.getInterface = function() {
+    return this.jasmine.interface;
+  };
+
   Jasmine.prototype.execute = function(filterString) {
     if (!this.defaultReporterConfigured) {
       this.configureDefaultReporter({ showColors: this.showingColors });
@@ -7332,8 +7030,8 @@
     this.env.execute();
   };
 
-  var jasmine$1 = Jasmine;
+  var lib = Jasmine;
 
-  return jasmine$1;
+  return lib;
 
 })));

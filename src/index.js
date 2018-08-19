@@ -4,7 +4,7 @@ var CompletionReporter = require("./reporters/completion_reporter"),
 
 function Jasmine(options) {
   options = options || {};
-  var jasmineCore = options.jasmineCore || require("jasmine-core");
+  var jasmineCore = options.jasmineCore || require("./core");
   this.jasmine = jasmineCore.boot(jasmineCore);
   this.specDir = "";
   this.env = this.jasmine.getEnv({ suppressLoadErrors: true });
@@ -89,6 +89,10 @@ Jasmine.prototype.stopSpecOnExpectationFailure = function(value) {
 
 Jasmine.prototype.stopOnSpecFailure = function(value) {
   this.env.stopOnSpecFailure(value);
+};
+
+Jasmine.prototype.getInterface = function() {
+  return this.jasmine.interface;
 };
 
 Jasmine.prototype.execute = function(filterString) {

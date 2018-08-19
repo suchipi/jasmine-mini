@@ -2,7 +2,7 @@
 
 Fork of jasmine's npm package that strips it down so it can run in non-browser, non-node environments.
 
-It removes all the file-related parts of the jasmine node API. The resulting bundle should run in any JavaScript environment with the following defined:
+It removes all the file and CLI-related parts of the jasmine node API, and also changes it so that it doesn't pollute the global with jasmine's public interface. The resulting bundle (`bundle.js`) should run in any JavaScript environment with the following defined:
 
 - `console.log`
 - `setTimeout`
@@ -15,9 +15,16 @@ Usage:
 ```js
 const j = new Jasmine();
 
+const {
+  describe,
+  it,
+  expect
+  // etc. stuff you would normally find on the global
+} = j.getInterface();
+
 describe("thing", () => {
   it("works", () => {
-    throw new Error("no it doesn't");
+    expect(2 + 2).toBe(4);
   });
 });
 
