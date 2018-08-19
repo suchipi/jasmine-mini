@@ -7030,6 +7030,33 @@
     this.env.execute();
   };
 
+  Jasmine.run = function runJasmine(callback) {
+    var output = "";
+    var j = new Jasmine();
+
+    j.configureDefaultReporter({
+      print: function print(str) {
+        output = output + str;
+      },
+      showColors: false
+    });
+
+    callback(j.getInterface());
+
+    /* global Promise */
+    return new Promise(function(resolve, reject) {
+      j.onComplete(function(results) {
+        if (results.overallStatus === "failed") {
+          reject(new Error("Test run failed: \n" + output));
+        } else {
+          resolve(output);
+        }
+      });
+
+      j.execute();
+    });
+  };
+
   var src = Jasmine;
 
   return src;

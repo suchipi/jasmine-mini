@@ -10,7 +10,7 @@ It removes all the file and CLI-related parts of the jasmine node API, and also 
 - `setInterval`
 - `clearInteval`
 
-Usage:
+### Usage
 
 ```js
 // Either require "@suchipi/jasmine-mini" with your CommonJS-compatible
@@ -36,7 +36,25 @@ describe("thing", () => {
 j.execute();
 ```
 
-Note: The bundle is compiled with `jasmine-core@3.2.1`. If you want to compile with a different version of `jasmine-core`, follow these steps:
+### Usage (Promise wrapper)
+
+This package also has a Promise wrapper you can use instead of the node interface, which works like this:
+
+```js
+const output = await Jasmine.run(({ describe, it, expect }) => {
+  describe("thing", () => {
+    it("works", () => {
+      expect(2 + 2).toBe(4);
+    });
+  });
+});
+```
+
+If the tests fail, the Promise will be rejected, and the output will be in the Error message.
+
+### Bumping jasmine-core
+
+This bundle is compiled with `jasmine-core@3.2.1`. If you want to compile with a different version of `jasmine-core`, follow these steps:
 
 - Clone the repo
 - Bump the jasmine-core dependency
