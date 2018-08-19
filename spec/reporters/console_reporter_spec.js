@@ -1,12 +1,14 @@
 describe("ConsoleReporter", function() {
-  var path = require('path'),
-      ConsoleReporter = require('../../lib/reporters/console_reporter'),
-      jasmineCorePath = 'path/to/jasmine/core/jasmine.js';
+  var path = require("path"),
+    ConsoleReporter = require("../../lib/reporters/console_reporter"),
+    jasmineCorePath = "path/to/jasmine/core/jasmine.js";
 
-  var fakeStack = ['foo' + jasmineCorePath,
-    'bar ' + jasmineCorePath,
-    'line of useful stack trace',
-    'baz ' + jasmineCorePath].join('\n');
+  var fakeStack = [
+    "foo" + jasmineCorePath,
+    "bar " + jasmineCorePath,
+    "line of useful stack trace",
+    "baz " + jasmineCorePath
+  ].join("\n");
 
   beforeEach(function() {
     this.out = (function() {
@@ -22,7 +24,7 @@ describe("ConsoleReporter", function() {
           output = "";
         }
       };
-    }());
+    })();
   });
 
   it("reports that the suite has started to the console", function() {
@@ -47,7 +49,7 @@ describe("ConsoleReporter", function() {
       reporter.jasmineStarted({
         order: {
           random: true,
-          seed: '12345'
+          seed: "12345"
         }
       });
 
@@ -71,8 +73,8 @@ describe("ConsoleReporter", function() {
   });
 
   it("setOptions should not override existing options if set multiple times", function() {
-    var timerSpy = jasmine.createSpyObj('timer', ['start']),
-        reporter = new ConsoleReporter();
+    var timerSpy = jasmine.createSpyObj("timer", ["start"]),
+      reporter = new ConsoleReporter();
 
     reporter.setOptions({
       print: this.out.print,
@@ -97,10 +99,9 @@ describe("ConsoleReporter", function() {
     expect(this.out.getOutput()).toEqual("Started\n");
   });
 
-
   it("starts the provided timer when jasmine starts", function() {
-    var timerSpy = jasmine.createSpyObj('timer', ['start']),
-        reporter = new ConsoleReporter();
+    var timerSpy = jasmine.createSpyObj("timer", ["start"]),
+      reporter = new ConsoleReporter();
 
     reporter.setOptions({
       print: this.out.print,
@@ -118,7 +119,7 @@ describe("ConsoleReporter", function() {
       print: this.out.print
     });
 
-    reporter.specDone({status: "passed"});
+    reporter.specDone({ status: "passed" });
 
     expect(this.out.getOutput()).toEqual(".");
   });
@@ -129,7 +130,7 @@ describe("ConsoleReporter", function() {
       print: this.out.print
     });
 
-    reporter.specDone({status: "disabled"});
+    reporter.specDone({ status: "disabled" });
 
     expect(this.out.getOutput()).toEqual("");
   });
@@ -140,7 +141,7 @@ describe("ConsoleReporter", function() {
       print: this.out.print
     });
 
-    reporter.specDone({status: "failed"});
+    reporter.specDone({ status: "failed" });
 
     expect(this.out.getOutput()).toEqual("F");
   });
@@ -151,12 +152,12 @@ describe("ConsoleReporter", function() {
       print: this.out.print
     });
 
-    reporter.specDone({status: "pending"});
+    reporter.specDone({ status: "pending" });
 
     expect(this.out.getOutput()).toEqual("*");
   });
 
-  it("alerts user if there are no specs", function(){
+  it("alerts user if there are no specs", function() {
     var reporter = new ConsoleReporter();
     reporter.setOptions({
       print: this.out.print
@@ -169,7 +170,7 @@ describe("ConsoleReporter", function() {
     expect(this.out.getOutput()).toMatch(/No specs found/);
   });
 
-  it("reports the seed number when running in random order", function(){
+  it("reports the seed number when running in random order", function() {
     var reporter = new ConsoleReporter();
     reporter.setOptions({
       print: this.out.print
@@ -178,23 +179,25 @@ describe("ConsoleReporter", function() {
     reporter.jasmineDone({
       order: {
         random: true,
-        seed: '12345'
+        seed: "12345"
       }
     });
 
-    expect(this.out.getOutput()).toMatch(/Randomized with seed 12345 \(jasmine --random=true --seed=12345\)/);
+    expect(this.out.getOutput()).toMatch(
+      /Randomized with seed 12345 \(jasmine --random=true --seed=12345\)/
+    );
   });
 
   it("reports a summary when done (singular spec and time)", function() {
-    var timerSpy = jasmine.createSpyObj('timer', ['start', 'elapsed']),
-        reporter = new ConsoleReporter();
+    var timerSpy = jasmine.createSpyObj("timer", ["start", "elapsed"]),
+      reporter = new ConsoleReporter();
     reporter.setOptions({
       print: this.out.print,
       timer: timerSpy
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
+    reporter.specDone({ status: "passed" });
 
     timerSpy.elapsed.and.returnValue(1000);
 
@@ -208,16 +211,16 @@ describe("ConsoleReporter", function() {
   });
 
   it("reports a summary when done (pluralized specs and seconds)", function() {
-    var timerSpy = jasmine.createSpyObj('timer', ['start', 'elapsed']),
-        reporter = new ConsoleReporter();
+    var timerSpy = jasmine.createSpyObj("timer", ["start", "elapsed"]),
+      reporter = new ConsoleReporter();
     reporter.setOptions({
       print: this.out.print,
       timer: timerSpy
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
-    reporter.specDone({status: "pending"});
+    reporter.specDone({ status: "passed" });
+    reporter.specDone({ status: "pending" });
     reporter.specDone({
       status: "failed",
       description: "with a failing spec",
@@ -244,16 +247,16 @@ describe("ConsoleReporter", function() {
   });
 
   it("reports a summary when done that indicates the number of specs run (when it's less that the full number of specs)", function() {
-    var timerSpy = jasmine.createSpyObj('timer', ['start', 'elapsed']),
-        reporter = new ConsoleReporter();
+    var timerSpy = jasmine.createSpyObj("timer", ["start", "elapsed"]),
+      reporter = new ConsoleReporter();
     reporter.setOptions({
       print: this.out.print,
       timer: timerSpy
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
-    reporter.specDone({status: "disabled"});
+    reporter.specDone({ status: "passed" });
+    reporter.specDone({ status: "disabled" });
 
     timerSpy.elapsed.and.returnValue(1000);
 
@@ -272,7 +275,7 @@ describe("ConsoleReporter", function() {
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
+    reporter.specDone({ status: "passed" });
     reporter.specDone({
       status: "failed",
       description: "with a failing spec",
@@ -303,7 +306,7 @@ describe("ConsoleReporter", function() {
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
+    reporter.specDone({ status: "passed" });
     reporter.specDone({
       status: "failed",
       description: "with a failing spec",
@@ -336,7 +339,7 @@ describe("ConsoleReporter", function() {
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
+    reporter.specDone({ status: "passed" });
     reporter.specDone({
       status: "failed",
       description: "with a failing spec",
@@ -360,7 +363,7 @@ describe("ConsoleReporter", function() {
   });
 
   it("reports a summary when done that includes custom filtered stack traces for a failing suite", function() {
-    var stackLine = 'custom line of stack';
+    var stackLine = "custom line of stack";
     var customStackFilter = function(stack) {
       return stackLine;
     };
@@ -371,7 +374,7 @@ describe("ConsoleReporter", function() {
     });
 
     reporter.jasmineStarted();
-    reporter.specDone({status: "passed"});
+    reporter.specDone({ status: "passed" });
     reporter.specDone({
       status: "failed",
       description: "with a failing spec",
@@ -435,7 +438,9 @@ describe("ConsoleReporter", function() {
       incompleteReason: "not all bars were frobnicated"
     });
 
-    expect(this.out.getOutput()).toContain("Incomplete: not all bars were frobnicated");
+    expect(this.out.getOutput()).toContain(
+      "Incomplete: not all bars were frobnicated"
+    );
   });
 
   it("displays all afterAll exceptions", function() {
@@ -445,9 +450,15 @@ describe("ConsoleReporter", function() {
       showColors: true
     });
 
-    reporter.suiteDone({ failedExpectations: [{ message: 'After All Exception' }] });
-    reporter.suiteDone({ failedExpectations: [{ message: 'Some Other Exception' }] });
-    reporter.jasmineDone({ failedExpectations: [{ message: 'Global Exception' }] });
+    reporter.suiteDone({
+      failedExpectations: [{ message: "After All Exception" }]
+    });
+    reporter.suiteDone({
+      failedExpectations: [{ message: "Some Other Exception" }]
+    });
+    reporter.jasmineDone({
+      failedExpectations: [{ message: "Global Exception" }]
+    });
 
     expect(this.out.getOutput()).toMatch(/After All Exception/);
     expect(this.out.getOutput()).toMatch(/Some Other Exception/);
@@ -474,7 +485,7 @@ describe("ConsoleReporter", function() {
         showColors: true
       });
 
-      reporter.specDone({status: "passed"});
+      reporter.specDone({ status: "passed" });
 
       expect(this.out.getOutput()).toEqual("\x1B[32m.\x1B[0m");
     });
@@ -486,7 +497,7 @@ describe("ConsoleReporter", function() {
         showColors: true
       });
 
-      reporter.specDone({status: 'disabled'});
+      reporter.specDone({ status: "disabled" });
 
       expect(this.out.getOutput()).toEqual("");
     });
@@ -498,7 +509,7 @@ describe("ConsoleReporter", function() {
         showColors: true
       });
 
-      reporter.specDone({status: 'failed'});
+      reporter.specDone({ status: "failed" });
 
       expect(this.out.getOutput()).toEqual("\x1B[31mF\x1B[0m");
     });

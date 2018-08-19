@@ -1,7 +1,6 @@
-var ConsoleSpecFilter = require('../../lib/filters/console_spec_filter');
+var ConsoleSpecFilter = require("../../lib/filters/console_spec_filter");
 
 describe("ConsoleSpecFilter", function() {
-
   it("should match when no string is provided", function() {
     var specFilter = new ConsoleSpecFilter();
 

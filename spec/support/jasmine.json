@@ -6,8 +6,6 @@
     "reporters/**/*[sS]pec.js",
     "filters/**/*[sS]pec.js"
   ],
-  "helpers": [
-    "helpers/**/*.js"
-  ],
+  "helpers": ["helpers/**/*.js"],
   "random": true
 }

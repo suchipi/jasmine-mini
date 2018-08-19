@@ -1,14 +1,14 @@
 module.exports = function(grunt) {
   var pkg = require("./package.json");
   global.jasmineVersion = pkg.version;
-  var versionString = 'v' + pkg.version;
+  var versionString = "v" + pkg.version;
 
   grunt.initConfig({
     pkg: pkg,
-    jshint: {all: ['lib/**/*.js', 'spec/**/*.js']}
+    jshint: { all: ["lib/**/*.js", "spec/**/*.js"] }
   });
 
-  var shell = require('shelljs');
+  var shell = require("shelljs");
   function runCommands(commands, done) {
     var command = commands.shift();
 
@@ -27,18 +27,28 @@ module.exports = function(grunt) {
   }
 
   // depend on jshint:all, specs?
-  grunt.registerTask('release',
-                     'Create tag ' + versionString + ' and push jasmine-' + pkg.version + ' to NPM',
-                     function() {
-    var done = this.async(),
-        commands = ['git tag ' + versionString, 'git push origin master --tags', 'npm publish'];
+  grunt.registerTask(
+    "release",
+    "Create tag " +
+      versionString +
+      " and push jasmine-" +
+      pkg.version +
+      " to NPM",
+    function() {
+      var done = this.async(),
+        commands = [
+          "git tag " + versionString,
+          "git push origin master --tags",
+          "npm publish"
+        ];
 
-    runCommands(commands, done);
-  });
+      runCommands(commands, done);
+    }
+  );
 
-  grunt.loadNpmTasks('grunt-contrib-jshint');
+  grunt.loadNpmTasks("grunt-contrib-jshint");
 
-  grunt.loadTasks('tasks');
+  grunt.loadTasks("tasks");
 
-  grunt.registerTask('default', ['jshint:all', 'specs']);
+  grunt.registerTask("default", ["jshint:all", "specs"]);
 };

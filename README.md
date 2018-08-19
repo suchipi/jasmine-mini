@@ -3,7 +3,7 @@
 
 # The Jasmine Module
 
-The `jasmine` module is a package of helper code for developing Jasmine projects for Node.js. 
+The `jasmine` module is a package of helper code for developing Jasmine projects for Node.js.
 
 The core of jasmine lives at https://github.com/jasmine/jasmine and is `jasmine-core` in npm.
 
@@ -16,6 +16,7 @@ This module allows you to run Jasmine specs for your Node.js code. The output wi
 https://jasmine.github.io/edge/node.html
 
 ## Installation
+
 ```sh
 # Local installation:
 npm install --save-dev jasmine
@@ -73,8 +74,7 @@ Or execute only those specs which name matches a particular regex:
 jasmine --filter "adapter21*"
 ```
 
-(where the *name* of a spec is the first parameter passed to `describe()`)
-
+(where the _name_ of a spec is the first parameter passed to `describe()`)
 
 ## Support
 
@@ -86,6 +86,6 @@ Please file issues here at Github
 
 Copyright (c) 2008-2017 Pivotal Labs. This software is licensed under the MIT License.
 
-
 ## License
+
 [![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjasmine%2Fjasmine-npm.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjasmine%2Fjasmine-npm?ref=badge_large)
