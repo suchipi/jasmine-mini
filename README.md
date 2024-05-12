@@ -52,13 +52,21 @@ const output = await Jasmine.run(({ describe, it, expect }) => {
 
 If the tests fail, the Promise will be rejected, and the output will be in the Error message.
 
+### Using the TypeScript types
+
+The TypeScript types for this package depend on the types for `jasmine`. If you want the types to work, run:
+
+```sh
+$ npm install -D @types/jasmine@3.2.0
+```
+
 ### Bumping jasmine-core
 
 This bundle is compiled with `jasmine-core@3.2.1`. If you want to compile with a different version of `jasmine-core`, follow these steps:
 
 - Clone the repo
 - Bump the jasmine-core dependency
-- Run `yarn install`
-- Run `yarn build`
+- Run `npm install`
+- Run `npm run build`
 
 And the `bundle.js` file will be updated.
