@@ -7030,9 +7030,21 @@
     this.env.execute();
   };
 
-  Jasmine.run = function runJasmine(callback) {
+  Jasmine.run = function runJasmine(callback, options = {}) {
     var output = "";
-    var j = new Jasmine();
+    var j = new Jasmine(options);
+
+    if (options.randomizeTests != null) {
+      j.randomizeTests(options.randomizeTests);
+    }
+
+    if (options.seed != null) {
+      j.seed(options.seed);
+    }
+
+    if (options.showColors != null) {
+      j.showColors(options.showColors);
+    }
 
     j.configureDefaultReporter({
       print: function print(str) {
