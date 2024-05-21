@@ -167,8 +167,8 @@ declare namespace JasmineMini {
       T[K] extends jasmine.Func
         ? T[K]
         : T[K] extends { new (...args: infer A): infer V }
-          ? (...args: A) => V
-          : never
+        ? (...args: A) => V
+        : never
     >;
 
     /**
@@ -297,7 +297,12 @@ declare class JasmineMini {
    * @returns Promise which resolves with the output from the test reporter on suite success, or rejects with an error on suite failure. The rejected Error contains the output from the test reporter.
    */
   static run(
-    callback: (interface: JasmineMini.TestInterface) => void
+    callback: (interface: JasmineMini.TestInterface) => void,
+    options?: {
+      randomizeTests?: boolean;
+      seed?: string;
+      showColors?: boolean;
+    }
   ): Promise<string>;
 }
 
