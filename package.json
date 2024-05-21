@@ -22,13 +22,16 @@
     "eslint": "^5.4.0",
     "eslint-config-unobtrusive": "^1.2.2",
     "eslint-plugin-import": "^2.14.0",
+    "first-base": "^1.4.0",
     "prettier": "^1.14.2",
     "rollup": "^0.64.1",
     "rollup-plugin-commonjs": "^9.1.5",
     "rollup-plugin-node-resolve": "^3.3.0",
-    "typescript": "^5.4.5"
+    "typescript": "^5.4.5",
+    "vitest": "^1.6.0"
   },
   "scripts": {
-    "build": "rollup -c"
+    "build": "rollup -c",
+    "test": "vitest"
   }
 }

@@ -4,3 +4,4 @@ node_modules
 .prettierignore
 rollup.config.js
 yarn.lock
+src/tests
