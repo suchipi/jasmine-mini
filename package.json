@@ -11,7 +11,7 @@
   "version": "3.2.2",
   "repository": {
     "type": "git",
-    "url": "https://github.com/suchipi/jasmine-mini"
+    "url": "git+https://github.com/suchipi/jasmine-mini.git"
   },
   "dependencies": {
     "jasmine-core": "~3.2.0"
