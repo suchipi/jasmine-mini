@@ -19,14 +19,14 @@
   "main": "./src/index.js",
   "devDependencies": {
     "@types/jasmine": "^3.2.0",
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "eslint": "^8.1.2",
     "eslint-config-unobtrusive": "^1.2.5",
     "eslint-plugin-import": "^2.29.1",
     "first-base": "^1.4.0",
     "prettier": "^3.2.5",
-    "rollup": "^0.64.1",
-    "rollup-plugin-commonjs": "^9.1.5",
-    "rollup-plugin-node-resolve": "^3.3.0",
+    "rollup": "^4.17.2",
     "typescript": "^5.4.5",
     "vitest": "^1.6.0"
   },
