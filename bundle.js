@@ -4,20 +4,20 @@
   (global.Jasmine = factory());
 }(this, (function () { 'use strict';
 
-  var completion_reporter = function() {
-    var onCompleteCallback = function() {};
+  var completion_reporter = function () {
+    var onCompleteCallback = function () {};
     var completed = false;
 
-    this.onComplete = function(callback) {
+    this.onComplete = function (callback) {
       onCompleteCallback = callback;
     };
 
-    this.jasmineDone = function(result) {
+    this.jasmineDone = function (result) {
       completed = true;
       onCompleteCallback(result);
     };
 
-    this.isComplete = function() {
+    this.isComplete = function () {
       return completed;
     };
   };
@@ -28,7 +28,7 @@
     var filterString = options && options.filterString;
     var filterPattern = new RegExp(filterString);
 
-    this.matches = function(specName) {
+    this.matches = function (specName) {
       return filterPattern.test(specName);
     };
   }
@@ -43,14 +43,14 @@
   module.exports = exports = ConsoleReporter;
 
   var noopTimer = {
-    start: function() {},
-    elapsed: function() {
+    start: function () {},
+    elapsed: function () {
       return 0;
-    }
+    },
   };
 
   function ConsoleReporter() {
-    var print = function() {},
+    var print = function () {},
       showColors = false,
       timer = noopTimer,
       jasmineCorePath = null,
@@ -63,12 +63,12 @@
         green: "\x1B[32m",
         red: "\x1B[31m",
         yellow: "\x1B[33m",
-        none: "\x1B[0m"
+        none: "\x1B[0m",
       },
       failedSuites = [],
       stackFilter = defaultStackFilter;
 
-    this.setOptions = function(options) {
+    this.setOptions = function (options) {
       if (options.print) {
         print = options.print;
       }
@@ -84,7 +84,7 @@
       }
     };
 
-    this.jasmineStarted = function(options) {
+    this.jasmineStarted = function (options) {
       specCount = 0;
       executableSpecCount = 0;
       failureCount = 0;
@@ -97,7 +97,7 @@
       timer.start();
     };
 
-    this.jasmineDone = function(result) {
+    this.jasmineDone = function (result) {
       printNewline();
       printNewline();
       if (failedSpecs.length > 0) {
@@ -135,7 +135,7 @@
               executableSpecCount +
               " of " +
               specCount +
-              plural(" spec", specCount)
+              plural(" spec", specCount),
           );
           printNewline();
         }
@@ -178,7 +178,7 @@
       }
     };
 
-    this.specDone = function(result) {
+    this.specDone = function (result) {
       specCount++;
 
       if (result.status == "pending") {
@@ -202,7 +202,7 @@
       }
     };
 
-    this.suiteDone = function(result) {
+    this.suiteDone = function (result) {
       if (result.failedExpectations && result.failedExpectations.length > 0) {
         failureCount++;
         failedSuites.push(result);
@@ -247,7 +247,7 @@
 
       var filteredStack = stack
         .split("\n")
-        .filter(function(stackLine) {
+        .filter(function (stackLine) {
           return stackLine.indexOf(jasmineCorePath) === -1;
         })
         .join("\n");
@@ -6903,7 +6903,7 @@
   var jasmine_1 = jasmine.Spec;
   var jasmine_2 = jasmine.Suite;
 
-  var boot = function(jasmineRequire) {
+  var boot = function (jasmineRequire) {
     var jasmine = jasmineRequire.core(jasmineRequire);
 
     var env = jasmine.getEnv({ suppressLoadErrors: true });
@@ -6933,38 +6933,38 @@
     this.addReporter(this.reporter);
     this.defaultReporterConfigured = false;
 
-    this.coreVersion = function() {
+    this.coreVersion = function () {
       return jasmineCore.version();
     };
   }
 
-  Jasmine.prototype.randomizeTests = function(value) {
+  Jasmine.prototype.randomizeTests = function (value) {
     this.env.randomizeTests(value);
   };
 
-  Jasmine.prototype.seed = function(value) {
+  Jasmine.prototype.seed = function (value) {
     this.env.seed(value);
   };
 
-  Jasmine.prototype.showColors = function(value) {
+  Jasmine.prototype.showColors = function (value) {
     this.showingColors = value;
   };
 
-  Jasmine.prototype.addReporter = function(reporter) {
+  Jasmine.prototype.addReporter = function (reporter) {
     this.env.addReporter(reporter);
     this.reportersCount++;
   };
 
-  Jasmine.prototype.clearReporters = function() {
+  Jasmine.prototype.clearReporters = function () {
     this.env.clearReporters();
     this.reportersCount = 0;
   };
 
-  Jasmine.prototype.provideFallbackReporter = function(reporter) {
+  Jasmine.prototype.provideFallbackReporter = function (reporter) {
     this.env.provideFallbackReporter(reporter);
   };
 
-  Jasmine.prototype.configureDefaultReporter = function(options) {
+  Jasmine.prototype.configureDefaultReporter = function (options) {
     options.timer = options.timer || new this.jasmine.Timer();
     options.print = options.print || console.log;
     options.showColors = options.hasOwnProperty("showColors")
@@ -6976,11 +6976,11 @@
     this.defaultReporterConfigured = true;
   };
 
-  Jasmine.prototype.addMatchers = function(matchers) {
+  Jasmine.prototype.addMatchers = function (matchers) {
     this.env.addMatchers(matchers);
   };
 
-  Jasmine.prototype.loadConfig = function(config) {
+  Jasmine.prototype.loadConfig = function (config) {
     this.specDir = config.spec_dir || this.specDir;
 
     if (config.stopSpecOnExpectationFailure !== undefined) {
@@ -6996,32 +6996,32 @@
     }
   };
 
-  Jasmine.prototype.onComplete = function(onCompleteCallback) {
+  Jasmine.prototype.onComplete = function (onCompleteCallback) {
     this.completionReporter.onComplete(onCompleteCallback);
   };
 
-  Jasmine.prototype.stopSpecOnExpectationFailure = function(value) {
+  Jasmine.prototype.stopSpecOnExpectationFailure = function (value) {
     this.env.throwOnExpectationFailure(value);
   };
 
-  Jasmine.prototype.stopOnSpecFailure = function(value) {
+  Jasmine.prototype.stopOnSpecFailure = function (value) {
     this.env.stopOnSpecFailure(value);
   };
 
-  Jasmine.prototype.getInterface = function() {
+  Jasmine.prototype.getInterface = function () {
     return this.jasmine.interface;
   };
 
-  Jasmine.prototype.execute = function(filterString) {
+  Jasmine.prototype.execute = function (filterString) {
     if (!this.defaultReporterConfigured) {
       this.configureDefaultReporter({ showColors: this.showingColors });
     }
 
     if (filterString) {
       var specFilter = new console_spec_filter({
-        filterString: filterString
+        filterString: filterString,
       });
-      this.env.specFilter = function(spec) {
+      this.env.specFilter = function (spec) {
         return specFilter.matches(spec.getFullName());
       };
     }
@@ -7050,14 +7050,14 @@
       print: function print(str) {
         output = output + str;
       },
-      showColors: false
+      showColors: false,
     });
 
     callback(j.getInterface());
 
     /* global Promise */
-    return new Promise(function(resolve, reject) {
-      j.onComplete(function(results) {
+    return new Promise(function (resolve, reject) {
+      j.onComplete(function (results) {
         if (results.overallStatus === "failed") {
           reject(new Error("Test run failed: \n" + output));
         } else {

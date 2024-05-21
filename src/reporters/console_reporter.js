@@ -1,14 +1,14 @@
 module.exports = exports = ConsoleReporter;
 
 var noopTimer = {
-  start: function() {},
-  elapsed: function() {
+  start: function () {},
+  elapsed: function () {
     return 0;
-  }
+  },
 };
 
 function ConsoleReporter() {
-  var print = function() {},
+  var print = function () {},
     showColors = false,
     timer = noopTimer,
     jasmineCorePath = null,
@@ -21,12 +21,12 @@ function ConsoleReporter() {
       green: "\x1B[32m",
       red: "\x1B[31m",
       yellow: "\x1B[33m",
-      none: "\x1B[0m"
+      none: "\x1B[0m",
     },
     failedSuites = [],
     stackFilter = defaultStackFilter;
 
-  this.setOptions = function(options) {
+  this.setOptions = function (options) {
     if (options.print) {
       print = options.print;
     }
@@ -42,7 +42,7 @@ function ConsoleReporter() {
     }
   };
 
-  this.jasmineStarted = function(options) {
+  this.jasmineStarted = function (options) {
     specCount = 0;
     executableSpecCount = 0;
     failureCount = 0;
@@ -55,7 +55,7 @@ function ConsoleReporter() {
     timer.start();
   };
 
-  this.jasmineDone = function(result) {
+  this.jasmineDone = function (result) {
     printNewline();
     printNewline();
     if (failedSpecs.length > 0) {
@@ -93,7 +93,7 @@ function ConsoleReporter() {
             executableSpecCount +
             " of " +
             specCount +
-            plural(" spec", specCount)
+            plural(" spec", specCount),
         );
         printNewline();
       }
@@ -136,7 +136,7 @@ function ConsoleReporter() {
     }
   };
 
-  this.specDone = function(result) {
+  this.specDone = function (result) {
     specCount++;
 
     if (result.status == "pending") {
@@ -160,7 +160,7 @@ function ConsoleReporter() {
     }
   };
 
-  this.suiteDone = function(result) {
+  this.suiteDone = function (result) {
     if (result.failedExpectations && result.failedExpectations.length > 0) {
       failureCount++;
       failedSuites.push(result);
@@ -205,7 +205,7 @@ function ConsoleReporter() {
 
     var filteredStack = stack
       .split("\n")
-      .filter(function(stackLine) {
+      .filter(function (stackLine) {
         return stackLine.indexOf(jasmineCorePath) === -1;
       })
       .join("\n");

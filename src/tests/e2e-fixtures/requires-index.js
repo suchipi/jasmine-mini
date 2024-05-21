@@ -9,7 +9,7 @@ Jasmine.run(
   {
     randomizeTests: false,
     showColors: false,
-  }
+  },
 )
   .then((result) => {
     console.log(result);

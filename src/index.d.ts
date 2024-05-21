@@ -33,7 +33,7 @@ declare namespace JasmineMini {
     it(
       expectation: string,
       assertion?: jasmine.ImplementationCallback,
-      timeout?: number
+      timeout?: number,
     ): void;
 
     /**
@@ -45,7 +45,7 @@ declare namespace JasmineMini {
     fit(
       expectation: string,
       assertion?: jasmine.ImplementationCallback,
-      timeout?: number
+      timeout?: number,
     ): void;
 
     /**
@@ -57,7 +57,7 @@ declare namespace JasmineMini {
     xit(
       expectation: string,
       assertion?: jasmine.ImplementationCallback,
-      timeout?: number
+      timeout?: number,
     ): void;
 
     /**
@@ -117,7 +117,7 @@ declare namespace JasmineMini {
      * @param spy
      */
     expect<T extends jasmine.Func>(
-      spy: T | jasmine.Spy<T>
+      spy: T | jasmine.Spy<T>,
     ): jasmine.FunctionMatchers<T>;
 
     /**
@@ -162,13 +162,13 @@ declare namespace JasmineMini {
      */
     spyOn<T, K extends keyof T = keyof T>(
       object: T,
-      method: T[K] extends Function ? K : never
+      method: T[K] extends Function ? K : never,
     ): jasmine.Spy<
       T[K] extends jasmine.Func
         ? T[K]
         : T[K] extends { new (...args: infer A): infer V }
-        ? (...args: A) => V
-        : never
+          ? (...args: A) => V
+          : never
     >;
 
     /**
@@ -180,12 +180,12 @@ declare namespace JasmineMini {
     spyOnProperty<T, K extends keyof T = keyof T>(
       object: T,
       property: K,
-      accessType?: "get"
+      accessType?: "get",
     ): jasmine.Spy<(this: T) => T[K]>;
     spyOnProperty<T, K extends keyof T = keyof T>(
       object: T,
       property: K,
-      accessType: "set"
+      accessType: "set",
     ): jasmine.Spy<(this: T, value: T[K]) => void>;
 
     /**
@@ -195,7 +195,7 @@ declare namespace JasmineMini {
      */
     spyOnAllFunctions<T>(
       object: T,
-      includeNonEnumerable?: boolean
+      includeNonEnumerable?: boolean,
     ): jasmine.SpyObj<T>;
   }
 
@@ -302,7 +302,7 @@ declare class JasmineMini {
       randomizeTests?: boolean;
       seed?: string;
       showColors?: boolean;
-    }
+    },
   ): Promise<string>;
 }
 

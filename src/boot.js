@@ -1,4 +1,4 @@
-module.exports = function(jasmineRequire) {
+module.exports = function (jasmineRequire) {
   var jasmine = jasmineRequire.core(jasmineRequire);
 
   var env = jasmine.getEnv({ suppressLoadErrors: true });

@@ -6,7 +6,7 @@ export default {
   output: {
     file: "bundle.js",
     format: "umd",
-    name: "Jasmine"
+    name: "Jasmine",
   },
-  plugins: [resolve(), commonjs()]
+  plugins: [resolve(), commonjs()],
 };

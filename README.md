@@ -23,7 +23,7 @@ const j = new Jasmine();
 const {
   describe,
   it,
-  expect
+  expect,
   // etc. stuff you would normally find on the global
 } = j.getInterface();
 

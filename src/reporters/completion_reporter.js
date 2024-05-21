@@ -1,17 +1,17 @@
-module.exports = function() {
-  var onCompleteCallback = function() {};
+module.exports = function () {
+  var onCompleteCallback = function () {};
   var completed = false;
 
-  this.onComplete = function(callback) {
+  this.onComplete = function (callback) {
     onCompleteCallback = callback;
   };
 
-  this.jasmineDone = function(result) {
+  this.jasmineDone = function (result) {
     completed = true;
     onCompleteCallback(result);
   };
 
-  this.isComplete = function() {
+  this.isComplete = function () {
     return completed;
   };
 };
